@@ -77,7 +77,7 @@ router.post("/login",async  (req,res)=>{
 
         const token = createToken(user._id, user.role);
 
-        res.status(201).json(token);
+        res.status(201).json({token, role:user.role});
 
     }
     catch(err){
