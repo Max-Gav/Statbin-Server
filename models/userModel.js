@@ -22,7 +22,7 @@ exports.userValidation = (_reqbody) =>{
     const joiSchema = joi.object({
         name:joi.string().min(1).max(100).required(),
         email:joi.string().min(2).max(150).email().required(),
-        password:joi.string().min(3).max(16).required()
+        password:joi.string().min(3).max(30).required()
         
     })
     return joiSchema.validate(_reqbody);
@@ -32,7 +32,7 @@ exports.userValidation = (_reqbody) =>{
 exports.loginValidation = (_reqbody) =>{
     const joiSchema = joi.object({
         email:joi.string().min(2).max(150).email().required(),
-        password:joi.string().min(3).max(16).required()
+        password:joi.string().min(3).max(30).required()
         
     })
     return joiSchema.validate(_reqbody);
