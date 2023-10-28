@@ -28,58 +28,62 @@ router.get("/single", userAuth, async (req, res) => {
   }
 });
 
-// POST - Signup using email and password
-router.post("/signup", async (req, res) => {
-  const validateBody = userValidation(req.body);
-  if (validateBody.error) {
-    return res.status(432).json({ err: validateBody.error.details });
-  }
-  try {
-    const user = new UserModel(req.body);
-    user.password = await bcrypt.hash(user.password, 10);
-    await user.save();
+/* v CURRENTLY USELESS v */
+// // POST - Signup using email and password
+// router.post("/signup", async (req, res) => {
+//   const validateBody = userValidation(req.body);
+//   if (validateBody.error) {
+//     return res.status(432).json({ err: validateBody.error.details });
+//   }
+//   try {
+//     const user = new UserModel(req.body);
+//     user.password = await bcrypt.hash(user.password, 10);
+//     await user.save();
 
-    user.password = "*****";
-    res.status(201).json(user);
-  } catch (err) {
-    if (err.code === 11000) {
-      return res.status(433).json("Email already exists!");
-    }
-    console.log(err);
-    res.status(502).json({ err });
-  }
-});
+//     user.password = "*****";
+//     res.status(201).json(user);
+//   } catch (err) {
+//     if (err.code === 11000) {
+//       return res.status(433).json("Email already exists!");
+//     }
+//     console.log(err);
+//     res.status(502).json({ err });
+//   }
+// });
 
-// POST - Log in using email and password
-router.post("/login", async (req, res) => {
-  const validateLogin = loginValidation(req.body);
-  console.log(req.body);
-  if (validateLogin.error) {
-    return res.status(432).json(validateLogin.error.details);
-  }
-  try {
-    const user = await UserModel.findOne({ email: req.body.email });
-    if (!user) {
-      return res.status(433).json("Email not found!!");
-    }
+// // POST - Log in using email and password
+// router.post("/login", async (req, res) => {
+//   const validateLogin = loginValidation(req.body);
+//   console.log(req.body);
+//   if (validateLogin.error) {
+//     return res.status(432).json(validateLogin.error.details);
+//   }
+//   try {
+//     const user = await UserModel.findOne({ email: req.body.email });
+//     if (!user) {
+//       return res.status(433).json("Email not found!!");
+//     }
 
-    const passValidate = await bcrypt.compare(req.body.password, user.password);
+//     const passValidate = await bcrypt.compare(req.body.password, user.password);
 
-    if (!passValidate) {
-      return res.status(434).json("Wrong Password!");
-    }
+//     if (!passValidate) {
+//       return res.status(434).json("Wrong Password!");
+//     }
 
-    const token = createToken(user._id, user.role);
+//     const token = createToken(user._id, user.role);
 
-        res.status(201).json({token, role:user.role});
+//         res.status(201).json({token, role:user.role});
 
-    }
-    catch(err){
+//     }
+//     catch(err){
 
-        console.log(err);
-        res.status(502).json({err})
-    }
-})
+//         console.log(err);
+//         res.status(502).json({err})
+//     }
+// })
+/* ^ CURRENTLY USELESS ^ */
+
+
 
 // DELETE - Deleting a user by ID; only the current user or an admin can delete a user
 router.delete("/:id", userAuth, async (req, res) => {
