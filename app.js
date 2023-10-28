@@ -19,7 +19,7 @@ require("./db/mongoConnect");
 
 //Middlewares
 app.use(cors({
-    origin: '*',
+    origin: 'http://localhost:5173', 
     optionsSuccessStatus: 200, // Some legacy browsers (IE11) choke on 204
 }));
 app.use(express.json());
